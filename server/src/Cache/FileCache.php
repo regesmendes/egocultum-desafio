@@ -38,7 +38,15 @@ final class FileCache implements CacheInterface
     public function set(string $key, mixed $value): void
     {
         $entry = ['storedAt' => $this->clock->now(), 'value' => $value];
-        file_put_contents($this->pathFor($key), json_encode($entry));
+        $path = $this->pathFor($key);
+
+        // Escreve para um ficheiro temporário e troca com rename() (atómico no
+        // mesmo sistema de ficheiros), em vez de truncar o ficheiro final
+        // diretamente — uma escrita falhada a meio não destrói a última
+        // resposta válida, que serve de fallback quando a origem falha.
+        $temporaryPath = $path . '.' . uniqid('', more_entropy: true) . '.tmp';
+        file_put_contents($temporaryPath, json_encode($entry));
+        rename($temporaryPath, $path);
     }
 
     private function readEntry(string $key): ?array
