@@ -18,8 +18,8 @@ final class OpenMeteoClientTest extends TestCase
         return json_encode([
             'daily' => [
                 'time' => ['2026-12-01'],
-                'temperature_2m_min' => [-1.0],
-                'temperature_2m_max' => [10.0],
+                'temperature_2m_min' => [-1.2],
+                'temperature_2m_max' => [10.5],
                 'precipitation_sum' => [0.0],
             ],
         ]);
@@ -48,7 +48,7 @@ final class OpenMeteoClientTest extends TestCase
         $daily = $client->getForecast(38.71, -9.14);
 
         $this->assertSame(['2026-12-01'], $daily['time']);
-        $this->assertSame([-1.0], $daily['temperature_2m_min']);
+        $this->assertSame([-1.2], $daily['temperature_2m_min']);
     }
 
     public function test_lanca_excecao_quando_o_transporte_falha(): void
