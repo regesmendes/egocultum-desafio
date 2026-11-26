@@ -5,6 +5,7 @@ services:
     volumes:
       - ./server:/app
       - server_vendor:/app/vendor
+      - .:/workspace:ro
     ports:
       - "8000:8000"
     command: sh -c "composer install --no-interaction --quiet && php -S 0.0.0.0:8000 -t public"
