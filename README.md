@@ -27,17 +27,19 @@ Equivalente a `docker compose run --rm server sh -c "composer install --no-inter
 
 ## Como correr o comando de verificação
 
-Lê `exemplo.json` (dados fictícios, no formato da resposta da Open-Meteo) e
-imprime os alertas que as regras geram:
+Lê um ficheiro no formato da resposta da Open-Meteo e imprime os alertas que
+as regras geram. Recebe o nome do ficheiro como parâmetro (por omissão,
+`exemplo.json`):
 
 ```bash
-./exemplo.sh
+./exemplo.sh               # usa exemplo.json
+./exemplo.sh outro.json    # usa outro ficheiro na raiz do repositório
 ```
 
-Equivalente a `docker compose run --rm server sh -c "composer install --no-interaction --quiet && php bin/alertas.php /workspace/exemplo.json"`.
+Equivalente a `docker compose run --rm server sh -c "composer install --no-interaction --quiet && php bin/alertas.php /workspace/<ficheiro>"`.
 `/workspace` é a raiz do repositório montada dentro do container do
 servidor, só para leitura, precisamente para este comando conseguir aceder
-ao `exemplo.json`.
+ao ficheiro.
 
 ## Decisões principais
 
