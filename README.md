@@ -106,3 +106,6 @@ concretos:
 - Logging estruturado das falhas da origem de dados.
 - Testes automáticos para o cliente React (atualmente só verificado
   manualmente).
+- UI mais rica: animações/transições subtis, estados vazios mais
+  trabalhados (ex. ícone/ilustração quando não há alertas), gráfico simples
+  da evolução da temperatura e precipitação ao longo dos dias.

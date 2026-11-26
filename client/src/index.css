@@ -2,9 +2,74 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-bg: #f4f6f3;
+  --color-text: #1f2a24;
+  --color-heading: #1f5132;
+  --color-tagline: #5b6b63;
+  --color-card-bg: #ffffff;
+  --color-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --color-border: #e1e7e2;
+  --color-row-alt: #f7f9f6;
+  --color-status-text: #4a5a52;
+  --color-error-bg: #fdecec;
+  --color-error-text: #9f1d1d;
+  --color-error-border: #f3c6c6;
+  --color-stale-bg: #fff6e0;
+  --color-stale-text: #8a5a00;
+  --color-stale-border: #f0dca0;
+  --color-input-border: #c9d2cb;
+  --color-primary-bg: #2f6f4f;
+  --color-primary-bg-hover: #255a3f;
+  --color-primary-text: #ffffff;
+  --color-secondary-border: #c9d2cb;
+  --color-secondary-text: #3c4a43;
+  --color-secondary-hover-bg: #f0f3f0;
+  --color-footer-text: #8a978f;
+  --color-alert-frost-bg: #eef4fb;
+  --color-alert-frost-text: #1d4e89;
+  --color-alert-rain-bg: #e8f6f8;
+  --color-alert-rain-text: #0e6b7a;
+  --color-alert-drought-bg: #fdf3e3;
+  --color-alert-drought-text: #8a5a10;
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #121715;
+  --color-text: #e6ebe7;
+  --color-heading: #6fd99a;
+  --color-tagline: #9fb0a7;
+  --color-card-bg: #1b211e;
+  --color-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --color-border: #2b332e;
+  --color-row-alt: #202723;
+  --color-status-text: #c3cdc7;
+  --color-error-bg: #3a1f1f;
+  --color-error-text: #ff8f8f;
+  --color-error-border: #5c2b2b;
+  --color-stale-bg: #3a2f10;
+  --color-stale-text: #f0c457;
+  --color-stale-border: #5c4a18;
+  --color-input-border: #3a443d;
+  --color-primary-bg: #3f8f63;
+  --color-primary-bg-hover: #4ea374;
+  --color-primary-text: #08140d;
+  --color-secondary-border: #3a443d;
+  --color-secondary-text: #c3cdc7;
+  --color-secondary-hover-bg: #232a26;
+  --color-footer-text: #6f7d75;
+  --color-alert-frost-bg: #1c2c40;
+  --color-alert-frost-text: #8fb8ef;
+  --color-alert-rain-bg: #153238;
+  --color-alert-rain-text: #7fd6e0;
+  --color-alert-drought-bg: #3a2d12;
+  --color-alert-drought-text: #f0c457;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: #f4f6f3;
-  color: #1f2a24;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }

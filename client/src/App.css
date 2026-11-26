@@ -5,53 +5,76 @@
 }
 
 .app-header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: 2rem;
+}
+
+.app-header .heading-block {
+  flex: 1;
+  text-align: center;
 }
 
 .app-header h1 {
   margin: 0 0 0.25rem;
   font-size: 1.75rem;
-  color: #1f5132;
+  color: var(--color-heading);
 }
 
 .app-header .tagline {
   margin: 0;
-  color: #5b6b63;
+  color: var(--color-tagline);
   font-size: 0.95rem;
 }
 
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--color-secondary-border);
+  color: var(--color-secondary-text);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.theme-toggle:hover {
+  background: var(--color-secondary-hover-bg);
+}
+
 .card {
-  background: #fff;
+  background: var(--color-card-bg);
   border-radius: 12px;
   padding: 1.5rem 1.75rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--color-card-shadow);
   margin-bottom: 1.5rem;
 }
 
 .card h2 {
   margin-top: 0;
   font-size: 1.1rem;
-  color: #1f2a24;
+  color: var(--color-text);
 }
 
 .status-message {
-  color: #4a5a52;
+  color: var(--color-status-text);
   text-align: center;
 }
 
 .error-message {
-  color: #9f1d1d;
-  background: #fdecec;
-  border: 1px solid #f3c6c6;
+  color: var(--color-error-text);
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
   padding: 0.75rem 1rem;
   border-radius: 8px;
 }
 
 .stale-banner {
-  color: #8a5a00;
-  background: #fff6e0;
-  border: 1px solid #f0dca0;
+  color: var(--color-stale-text);
+  background: var(--color-stale-bg);
+  border: 1px solid var(--color-stale-border);
   padding: 0.75rem 1rem;
   border-radius: 8px;
 }
@@ -68,25 +91,27 @@
   flex-direction: column;
   gap: 0.35rem;
   font-size: 0.85rem;
-  color: #3c4a43;
+  color: var(--color-secondary-text);
 }
 
 .location-form input {
   padding: 0.5rem 0.65rem;
-  border: 1px solid #c9d2cb;
+  border: 1px solid var(--color-input-border);
   border-radius: 6px;
   font-size: 0.95rem;
   min-width: 140px;
+  background: var(--color-card-bg);
+  color: var(--color-text);
 }
 
 .location-form input:focus {
-  outline: 2px solid #2f6f4f;
+  outline: 2px solid var(--color-primary-bg);
   outline-offset: 1px;
 }
 
 .primary-button {
-  background: #2f6f4f;
-  color: #fff;
+  background: var(--color-primary-bg);
+  color: var(--color-primary-text);
   border: none;
   padding: 0.6rem 1.25rem;
   border-radius: 6px;
@@ -95,7 +120,7 @@
 }
 
 .primary-button:hover {
-  background: #255a3f;
+  background: var(--color-primary-bg-hover);
 }
 
 .table-wrapper {
@@ -120,17 +145,17 @@
 }
 
 .forecast-table thead th {
-  color: #5b6b63;
+  color: var(--color-tagline);
   font-weight: 600;
-  border-bottom: 2px solid #e1e7e2;
+  border-bottom: 2px solid var(--color-border);
 }
 
 .forecast-table tbody tr:nth-child(even) {
-  background: #f7f9f6;
+  background: var(--color-row-alt);
 }
 
 .forecast-table tbody td {
-  border-bottom: 1px solid #edf1ee;
+  border-bottom: 1px solid var(--color-border);
   font-variant-numeric: tabular-nums;
 }
 
@@ -162,30 +187,30 @@
 }
 
 .alert-item--frost {
-  background: #eef4fb;
-  color: #1d4e89;
+  background: var(--color-alert-frost-bg);
+  color: var(--color-alert-frost-text);
 }
 
 .alert-item--heavy_rain {
-  background: #e8f6f8;
-  color: #0e6b7a;
+  background: var(--color-alert-rain-bg);
+  color: var(--color-alert-rain-text);
 }
 
 .alert-item--drought {
-  background: #fdf3e3;
-  color: #8a5a10;
+  background: var(--color-alert-drought-bg);
+  color: var(--color-alert-drought-text);
 }
 
 .empty-alerts {
-  color: #5b6b63;
+  color: var(--color-status-text);
   font-size: 0.92rem;
   margin: 0;
 }
 
 .secondary-button {
   background: none;
-  border: 1px solid #c9d2cb;
-  color: #3c4a43;
+  border: 1px solid var(--color-secondary-border);
+  color: var(--color-secondary-text);
   padding: 0.45rem 0.9rem;
   border-radius: 6px;
   cursor: pointer;
@@ -193,12 +218,12 @@
 }
 
 .secondary-button:hover {
-  background: #f0f3f0;
+  background: var(--color-secondary-hover-bg);
 }
 
 .app-footer {
   text-align: center;
-  color: #8a978f;
+  color: var(--color-footer-text);
   font-size: 0.8rem;
   margin-top: 2rem;
 }

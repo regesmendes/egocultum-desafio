@@ -9,6 +9,28 @@ const ALERT_INFO = {
   drought: { label: 'Seca', icon: '☀️' },
 }
 
+function formatDate(isoDate) {
+  const [year, month, day] = isoDate.split('-')
+  return `${day}/${month}/${year}`
+}
+
+function useTheme() {
+  const [theme, setTheme] = useState(() => {
+    const stored = localStorage.getItem('theme')
+    if (stored === 'light' || stored === 'dark') {
+      return stored
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('theme', theme)
+  }, [theme])
+
+  return [theme, setTheme]
+}
+
 function useGeolocation() {
   const [coords, setCoords] = useState(null)
   const [needsManualInput, setNeedsManualInput] = useState(false)
@@ -96,7 +118,7 @@ function ForecastTable({ daily }) {
         <tbody>
           {daily.time.map((date, index) => (
             <tr key={date}>
-              <td>{date}</td>
+              <td>{formatDate(date)}</td>
               <td>{daily.temperature_2m_min?.[index] ?? '—'}</td>
               <td>{daily.temperature_2m_max?.[index] ?? '—'}</td>
               <td>{daily.precipitation_sum?.[index] ?? '—'}</td>
@@ -117,13 +139,18 @@ function AlertsList({ alerts }) {
     <ul className="alerts-list">
       {alerts.map((alert) => {
         const info = ALERT_INFO[alert.type] ?? { label: alert.type, icon: '⚠️' }
+        const period =
+          alert.start === alert.end
+            ? formatDate(alert.start)
+            : `${formatDate(alert.start)} a ${formatDate(alert.end)}`
+
         return (
           <li key={`${alert.type}-${alert.start}`} className={`alert-item alert-item--${alert.type}`}>
             <span className="alert-item__icon" aria-hidden="true">
               {info.icon}
             </span>
             <span className="alert-item__label">{info.label}</span>
-            <span>{alert.start === alert.end ? alert.start : `${alert.start} a ${alert.end}`}</span>
+            <span>{period}</span>
           </li>
         )
       })}
@@ -132,6 +159,7 @@ function AlertsList({ alerts }) {
 }
 
 function App() {
+  const [theme, setTheme] = useTheme()
   const { coords, setCoords, needsManualInput, setNeedsManualInput, geoMessage } = useGeolocation()
   const [forecast, setForecast] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -165,8 +193,18 @@ function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <h1>Alertas Meteorológicos</h1>
-        <p className="tagline">Previsão dos próximos dias e alertas de geada, chuva forte e seca</p>
+        <div className="heading-block">
+          <h1>Alertas Meteorológicos</h1>
+          <p className="tagline">Previsão dos próximos dias e alertas de geada, chuva forte e seca</p>
+        </div>
+        <button
+          className="theme-toggle"
+          type="button"
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          aria-label="Alternar entre tema claro e escuro"
+        >
+          {theme === 'dark' ? '☀️ Claro' : '🌙 Escuro'}
+        </button>
       </header>
 
       {needsManualInput && (
