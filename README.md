@@ -132,8 +132,6 @@ entrega:
   sobre taxa de pedidos, não armazenamento.
 - Limite de idade para dados *stale* e mostrar há quanto tempo são
   (`getStale()` não tem hoje um limite máximo).
-- Devolver códigos HTTP reais (502/503) quando a Open-Meteo falha e não há
-  cache nenhuma, em vez de sempre 200 com `error` preenchido.
 - Instalar as dependências (`composer install`/`npm install`) no build da
   imagem Docker, em vez de no arranque do container.
 - Correr os containers como utilizador não-root.
