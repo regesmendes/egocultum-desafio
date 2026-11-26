@@ -115,16 +115,16 @@ final class DroughtAlertRuleTest extends TestCase
 
     public function test_sequencia_ainda_ativa_no_ultimo_dia_dos_dados_conta(): void
     {
-        $time = $this->days(5);
+        $time = $this->days(6);
         $daily = [
             'time' => $time,
-            'precipitation_sum' => [1.5, 0.0, 0.0, 0.0, 0.0],
+            'precipitation_sum' => [1.5, 0.0, 0.0, 0.0, 0.0, 0.0],
         ];
 
         $alerts = $this->rule->evaluate($daily);
 
         $this->assertSame(
-            [['type' => 'drought', 'start' => $time[1], 'end' => $time[4]]],
+            [['type' => 'drought', 'start' => $time[1], 'end' => $time[5]]],
             $alerts
         );
     }
