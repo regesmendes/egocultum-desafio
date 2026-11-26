@@ -20,11 +20,10 @@ docker compose up
 ## Como correr os testes
 
 ```bash
-docker compose run --rm server sh -c "composer install --no-interaction --quiet && vendor/bin/phpunit"
+./test.sh
 ```
 
-(Se já tiveres corrido `docker compose up` antes, as dependências já estão
-instaladas e basta `docker compose run --rm server vendor/bin/phpunit`.)
+Equivalente a `docker compose run --rm server sh -c "composer install --no-interaction --quiet && vendor/bin/phpunit"`.
 
 ## Como correr o comando de verificação
 
@@ -32,12 +31,13 @@ Lê `exemplo.json` (dados fictícios, no formato da resposta da Open-Meteo) e
 imprime os alertas que as regras geram:
 
 ```bash
-docker compose run --rm server sh -c "composer install --no-interaction --quiet && php bin/alertas.php /workspace/exemplo.json"
+./exemplo.sh
 ```
 
-(`/workspace` é a raiz do repositório montada dentro do container do
+Equivalente a `docker compose run --rm server sh -c "composer install --no-interaction --quiet && php bin/alertas.php /workspace/exemplo.json"`.
+`/workspace` é a raiz do repositório montada dentro do container do
 servidor, só para leitura, precisamente para este comando conseguir aceder
-ao `exemplo.json`.)
+ao `exemplo.json`.
 
 ## Decisões principais
 
@@ -79,19 +79,20 @@ ao `exemplo.json`.)
 
 Usei o Claude Code ao longo de todo o desenvolvimento: desenho da
 arquitetura, escrita dos testes e da implementação em TDD, Dockerfiles,
-docker-compose, o cliente React e este README. Revi e corrigi o resultado
-em vários pontos em vez de aceitar tudo às cegas — dois exemplos concretos:
+docker-compose, o cliente React e este README. Revi o resultado e corrigi
+o rumo em vários pontos em vez de aceitar tudo às cegas — dois exemplos
+concretos:
 
-- Escrevi um teste (`OpenMeteoClientTest`) com uma fixture que codificava
-  `-1.0` em JSON e comparava o resultado com `-1.0`. O teste falhava porque
-  `json_encode(-1.0)` em PHP produz `"-1"` (sem parte decimal), que o
-  `json_decode` lê como `int`, não `float`. Corrigi a fixture para usar
-  valores com parte fracionária (`-1.2`) em vez de aceitar uma asserção
-  frágil ou alterar o código de produção para contornar um problema que só
-  existia no teste.
-- Num dos testes de seca (`DroughtAlertRuleTest`), a fixture inicial só
-  tinha 4 dias secos mas a asserção esperava um alerta — a regra exige 5.
-  Corrigi a fixture (não a regra, que estava certa) antes de implementar.
+- A stack inicial ficou a usar versões já desatualizadas por omissão (PHP
+  8.3, Node 22, React 18.3, Vite 5.4, PHPUnit 10.5), apesar de tudo
+  funcionar sem erros. Pedi para verificar as versões realmente atuais e
+  atualizar tudo para as mais recentes estáveis — PHP 8.5 (não a 8.6, que
+  tinha saído há só 7 dias), Node 26, React 19.3, Vite 8.3, PHPUnit 13.4 —
+  e confirmar que continuava tudo a funcionar.
+- Os comandos para correr os testes e o exemplo eram pedidos longos
+  `docker compose run --rm server sh -c "..."`. Pedi para criar dois
+  scripts (`test.sh`, `exemplo.sh`) só para encurtar esses comandos, sem
+  mudar o que fazem.
 
 ## O que faria a seguir com mais tempo
 
