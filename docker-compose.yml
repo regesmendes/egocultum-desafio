@@ -7,7 +7,7 @@ services:
       - server_vendor:/app/vendor
       - .:/workspace:ro
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     command: sh -c "composer install --no-interaction --quiet && php -S 0.0.0.0:8000 -t public"
 
   client:
@@ -17,7 +17,7 @@ services:
       - ./client:/app
       - client_node_modules:/app/node_modules
     ports:
-      - "5173:5173"
+      - "127.0.0.1:5173:5173"
     environment:
       - VITE_API_URL=http://localhost:8000
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
