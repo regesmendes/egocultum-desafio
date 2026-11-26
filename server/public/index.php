@@ -23,6 +23,15 @@ ini_set('display_errors', '0');
 error_reporting(E_ALL);
 
 set_error_handler(function (int $severity, string $message, string $file, int $line): bool {
+    if (!(error_reporting() & $severity)) {
+        // Respeita o operador @ (ex. @file_get_contents no StreamHttpClient):
+        // nesse caso error_reporting() devolve 0 durante a chamada, e quem
+        // chamou já trata a falha pelo valor de retorno (false). Sem este
+        // check, um aviso suprimido de propósito virava exceção e saltava a
+        // lógica de fallback da Open-Meteo, caindo sempre no 500 genérico.
+        return false;
+    }
+
     throw new \ErrorException($message, 0, $severity, $file, $line);
 });
 
