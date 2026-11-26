@@ -104,4 +104,18 @@ final class ForecastServiceTest extends TestCase
 
         $this->assertSame(1, $provider->calls);
     }
+
+    public function test_coordenadas_negativas_perto_de_zero_partilham_chave_com_as_positivas(): void
+    {
+        $cache = new InMemoryCache();
+        $provider = new FakeWeatherProvider(result: $this->dailyFixture());
+        $service = new ForecastService($provider, $cache, new AlertEvaluator([]));
+
+        // sprintf('%.2F', -0.001) dá "-0.00", uma chave diferente de "0.00" para a
+        // mesma célula de 2 casas decimais — bug encontrado em revisão de código.
+        $service->getForecast(-0.001, -0.001);
+        $service->getForecast(0.001, 0.001);
+
+        $this->assertSame(1, $provider->calls);
+    }
 }
