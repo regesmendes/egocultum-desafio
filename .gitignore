@@ -6,6 +6,7 @@ email-candidatura.md
 # PHP / Composer
 /server/vendor/
 /server/.phpunit.cache/
+/server/.phpunit.result.cache
 /server/cache/
 
 # Node / Vite
