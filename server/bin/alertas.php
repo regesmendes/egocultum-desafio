@@ -46,9 +46,19 @@ $labels = [
     'drought' => 'Seca',
 ];
 
+function formatarData(string $isoDate): string
+{
+    [$ano, $mes, $dia] = explode('-', $isoDate);
+
+    return "{$dia}/{$mes}/{$ano}";
+}
+
 foreach ($alerts as $alert) {
     $label = $labels[$alert['type']] ?? $alert['type'];
+    $inicio = formatarData($alert['start']);
+    $fim = formatarData($alert['end']);
+
     echo $alert['start'] === $alert['end']
-        ? "{$label}: {$alert['start']}\n"
-        : "{$label}: {$alert['start']} a {$alert['end']}\n";
+        ? "{$label}: {$inicio}\n"
+        : "{$label}: {$inicio} a {$fim}\n";
 }
