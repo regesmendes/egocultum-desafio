@@ -30,12 +30,17 @@ final class StreamHttpClient implements HttpClientInterface
 
     private function extractStatusCode(array $headers): int
     {
+        // Quando o stream wrapper segue um redirecionamento, $headers contém uma
+        // linha "HTTP/..." por cada salto, pela ordem em que aconteceram — o
+        // último valor é o código de estado da resposta final.
+        $statusCode = 0;
+
         foreach ($headers as $header) {
             if (preg_match('#^HTTP/\S+\s+(\d{3})#', $header, $matches) === 1) {
-                return (int) $matches[1];
+                $statusCode = (int) $matches[1];
             }
         }
 
-        return 0;
+        return $statusCode;
     }
 }
