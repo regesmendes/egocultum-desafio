@@ -1,0 +1,28 @@
+services:
+  server:
+    build: ./server
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - server_vendor:/app/vendor
+    ports:
+      - "8000:8000"
+    command: sh -c "composer install --no-interaction --quiet && php -S 0.0.0.0:8000 -t public"
+
+  client:
+    build: ./client
+    working_dir: /app
+    volumes:
+      - ./client:/app
+      - client_node_modules:/app/node_modules
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - server
+
+volumes:
+  server_vendor:
+  client_node_modules:

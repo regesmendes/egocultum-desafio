@@ -2,3 +2,15 @@
 Desafio técnico.pdf
 Programador _ Egocultum _ LinkedIn.pdf
 email-candidatura.md
+
+# PHP / Composer
+/server/vendor/
+/server/.phpunit.cache/
+/server/cache/
+
+# Node / Vite
+/client/node_modules/
+/client/dist/
+
+# Diversos
+.DS_Store
