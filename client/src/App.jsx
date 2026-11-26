@@ -14,6 +14,10 @@ function formatDate(isoDate) {
   return `${day}/${month}/${year}`
 }
 
+function formatNumber(value) {
+  return typeof value === 'number' ? value.toFixed(1) : '—'
+}
+
 function useTheme() {
   const [theme, setTheme] = useState(() => {
     const stored = localStorage.getItem('theme')
@@ -119,9 +123,9 @@ function ForecastTable({ daily }) {
           {daily.time.map((date, index) => (
             <tr key={date}>
               <td>{formatDate(date)}</td>
-              <td>{daily.temperature_2m_min?.[index] ?? '—'}</td>
-              <td>{daily.temperature_2m_max?.[index] ?? '—'}</td>
-              <td>{daily.precipitation_sum?.[index] ?? '—'}</td>
+              <td>{formatNumber(daily.temperature_2m_min?.[index])}</td>
+              <td>{formatNumber(daily.temperature_2m_max?.[index])}</td>
+              <td>{formatNumber(daily.precipitation_sum?.[index])}</td>
             </tr>
           ))}
         </tbody>
