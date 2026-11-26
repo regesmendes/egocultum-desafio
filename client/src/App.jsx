@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
+import './App.css'
 
 const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
 
-const ALERT_LABELS = {
-  frost: 'Geada',
-  heavy_rain: 'Chuva forte',
-  drought: 'Seca',
+const ALERT_INFO = {
+  frost: { label: 'Geada', icon: '❄️' },
+  heavy_rain: { label: 'Chuva forte', icon: '🌧️' },
+  drought: { label: 'Seca', icon: '☀️' },
 }
 
 function useGeolocation() {
@@ -50,71 +51,82 @@ function ManualLocationForm({ onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form className="location-form" onSubmit={handleSubmit}>
+      <label className="field">
         Latitude
         <input
           value={lat}
           onChange={(event) => setLat(event.target.value)}
           type="number"
           step="any"
+          placeholder="38.71"
           required
         />
       </label>
-      <label>
+      <label className="field">
         Longitude
         <input
           value={lon}
           onChange={(event) => setLon(event.target.value)}
           type="number"
           step="any"
+          placeholder="-9.14"
           required
         />
       </label>
-      <button type="submit">Ver previsão</button>
+      <button className="primary-button" type="submit">
+        Ver previsão
+      </button>
     </form>
   )
 }
 
 function ForecastTable({ daily }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Dia</th>
-          <th>Mín (°C)</th>
-          <th>Máx (°C)</th>
-          <th>Precipitação (mm)</th>
-        </tr>
-      </thead>
-      <tbody>
-        {daily.time.map((date, index) => (
-          <tr key={date}>
-            <td>{date}</td>
-            <td>{daily.temperature_2m_min?.[index] ?? '—'}</td>
-            <td>{daily.temperature_2m_max?.[index] ?? '—'}</td>
-            <td>{daily.precipitation_sum?.[index] ?? '—'}</td>
+    <div className="table-wrapper">
+      <table className="forecast-table">
+        <thead>
+          <tr>
+            <th scope="col">Dia</th>
+            <th scope="col">Mín (°C)</th>
+            <th scope="col">Máx (°C)</th>
+            <th scope="col">Precipitação (mm)</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {daily.time.map((date, index) => (
+            <tr key={date}>
+              <td>{date}</td>
+              <td>{daily.temperature_2m_min?.[index] ?? '—'}</td>
+              <td>{daily.temperature_2m_max?.[index] ?? '—'}</td>
+              <td>{daily.precipitation_sum?.[index] ?? '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
 function AlertsList({ alerts }) {
   if (alerts.length === 0) {
-    return <p>Sem alertas para os próximos dias.</p>
+    return <p className="empty-alerts">Sem alertas para os próximos dias.</p>
   }
 
   return (
-    <ul>
-      {alerts.map((alert) => (
-        <li key={`${alert.type}-${alert.start}`}>
-          {ALERT_LABELS[alert.type] ?? alert.type}
-          {': '}
-          {alert.start === alert.end ? alert.start : `${alert.start} a ${alert.end}`}
-        </li>
-      ))}
+    <ul className="alerts-list">
+      {alerts.map((alert) => {
+        const info = ALERT_INFO[alert.type] ?? { label: alert.type, icon: '⚠️' }
+        return (
+          <li key={`${alert.type}-${alert.start}`} className={`alert-item alert-item--${alert.type}`}>
+            <span className="alert-item__icon" aria-hidden="true">
+              {info.icon}
+            </span>
+            <span className="alert-item__label">{info.label}</span>
+            <span>{alert.start === alert.end ? alert.start : `${alert.start} a ${alert.end}`}</span>
+          </li>
+        )
+      })}
     </ul>
   )
 }
@@ -151,40 +163,57 @@ function App() {
   }, [coords])
 
   return (
-    <main>
-      <h1>Alertas Meteorológicos</h1>
+    <div className="app-shell">
+      <header className="app-header">
+        <h1>Alertas Meteorológicos</h1>
+        <p className="tagline">Previsão dos próximos dias e alertas de geada, chuva forte e seca</p>
+      </header>
 
       {needsManualInput && (
-        <section>
-          {geoMessage && <p>{geoMessage}</p>}
+        <section className="card">
+          {geoMessage && <p className="status-message">{geoMessage}</p>}
           <ManualLocationForm onSubmit={setCoords} />
         </section>
       )}
 
-      {!needsManualInput && !coords && <p>A obter localização…</p>}
+      {!needsManualInput && !coords && <p className="status-message">A obter localização…</p>}
 
-      {loading && <p>A carregar previsão…</p>}
+      {loading && <p className="status-message">A carregar previsão…</p>}
 
-      {fetchError && <p role="alert">{fetchError}</p>}
+      {fetchError && (
+        <p className="error-message" role="alert">
+          {fetchError}
+        </p>
+      )}
 
-      {forecast?.stale && <p role="status">{forecast.error}</p>}
+      {forecast?.stale && (
+        <p className="stale-banner" role="status">
+          {forecast.error}
+        </p>
+      )}
 
       {forecast?.daily?.time?.length > 0 && (
-        <section>
-          <ForecastTable daily={forecast.daily} />
-          <h2>Alertas</h2>
-          <AlertsList alerts={forecast.alerts ?? []} />
-        </section>
+        <>
+          <section className="card">
+            <h2>Previsão</h2>
+            <ForecastTable daily={forecast.daily} />
+          </section>
+
+          <section className="card">
+            <h2>Alertas</h2>
+            <AlertsList alerts={forecast.alerts ?? []} />
+          </section>
+        </>
       )}
 
       {coords && !needsManualInput && (
-        <button type="button" onClick={() => setNeedsManualInput(true)}>
+        <button className="secondary-button" type="button" onClick={() => setNeedsManualInput(true)}>
           Indicar outra localização
         </button>
       )}
 
-      <footer>Dados meteorológicos: Open-Meteo.com</footer>
-    </main>
+      <footer className="app-footer">Dados meteorológicos: Open-Meteo.com</footer>
+    </div>
   )
 }
 

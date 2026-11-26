@@ -1,0 +1,204 @@
+.app-shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.75rem;
+  color: #1f5132;
+}
+
+.app-header .tagline {
+  margin: 0;
+  color: #5b6b63;
+  font-size: 0.95rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  margin-bottom: 1.5rem;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  color: #1f2a24;
+}
+
+.status-message {
+  color: #4a5a52;
+  text-align: center;
+}
+
+.error-message {
+  color: #9f1d1d;
+  background: #fdecec;
+  border: 1px solid #f3c6c6;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.stale-banner {
+  color: #8a5a00;
+  background: #fff6e0;
+  border: 1px solid #f0dca0;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+
+.location-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.location-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #3c4a43;
+}
+
+.location-form input {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid #c9d2cb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  min-width: 140px;
+}
+
+.location-form input:focus {
+  outline: 2px solid #2f6f4f;
+  outline-offset: 1px;
+}
+
+.primary-button {
+  background: #2f6f4f;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #255a3f;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.forecast-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.forecast-table th,
+.forecast-table td {
+  padding: 0.55rem 0.75rem;
+  text-align: right;
+}
+
+.forecast-table th:first-child,
+.forecast-table td:first-child {
+  text-align: left;
+}
+
+.forecast-table thead th {
+  color: #5b6b63;
+  font-weight: 600;
+  border-bottom: 2px solid #e1e7e2;
+}
+
+.forecast-table tbody tr:nth-child(even) {
+  background: #f7f9f6;
+}
+
+.forecast-table tbody td {
+  border-bottom: 1px solid #edf1ee;
+  font-variant-numeric: tabular-nums;
+}
+
+.alerts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.alert-item__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.alert-item__label {
+  font-weight: 600;
+}
+
+.alert-item--frost {
+  background: #eef4fb;
+  color: #1d4e89;
+}
+
+.alert-item--heavy_rain {
+  background: #e8f6f8;
+  color: #0e6b7a;
+}
+
+.alert-item--drought {
+  background: #fdf3e3;
+  color: #8a5a10;
+}
+
+.empty-alerts {
+  color: #5b6b63;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.secondary-button {
+  background: none;
+  border: 1px solid #c9d2cb;
+  color: #3c4a43;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.secondary-button:hover {
+  background: #f0f3f0;
+}
+
+.app-footer {
+  text-align: center;
+  color: #8a978f;
+  font-size: 0.8rem;
+  margin-top: 2rem;
+}
