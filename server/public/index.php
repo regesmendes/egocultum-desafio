@@ -14,6 +14,24 @@ use App\ForecastService;
 use App\Http\StreamHttpClient;
 use App\Weather\OpenMeteoClient;
 
+// A imagem php:8.5-cli não traz um php.ini, logo display_errors fica ligado por
+// omissão: qualquer aviso (ex. escrita de cache falhada, resposta da API com
+// formato inesperado) seria impresso em HTML antes do JSON, partindo a
+// resposta e expondo caminhos do servidor ao cliente. Converte avisos em
+// exceções e devolve sempre um JSON 500 limpo em caso de erro não tratado.
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+
+set_error_handler(function (int $severity, string $message, string $file, int $line): bool {
+    throw new \ErrorException($message, 0, $severity, $file, $line);
+});
+
+set_exception_handler(function (\Throwable $exception): void {
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['error' => 'Erro interno do servidor.']);
+});
+
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
