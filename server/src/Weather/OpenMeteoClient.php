@@ -15,7 +15,7 @@ final class OpenMeteoClient implements WeatherProviderInterface
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
-        private readonly string $timezone = 'Europe/Lisbon',
+        private readonly string $timezone = 'auto',
     ) {
     }
 

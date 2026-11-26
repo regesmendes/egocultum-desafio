@@ -38,6 +38,10 @@ final class OpenMeteoClientTest extends TestCase
         $this->assertStringContainsString('longitude=-9.14', $httpClient->requestedUrl);
         $this->assertStringContainsString('temperature_2m_min', $httpClient->requestedUrl);
         $this->assertStringContainsString('precipitation_sum', $httpClient->requestedUrl);
+        // "auto" deixa a Open-Meteo resolver o fuso horário pelas coordenadas —
+        // um valor fixo (ex. Europe/Lisbon) desalinhava os dias para outras
+        // regiões, como os Açores (achado em revisão de código).
+        $this->assertStringContainsString('timezone=auto', $httpClient->requestedUrl);
     }
 
     public function test_devolve_os_dados_diarios_quando_a_resposta_e_valida(): void
