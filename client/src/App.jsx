@@ -85,6 +85,8 @@ function ManualLocationForm({ onSubmit }) {
           onChange={(event) => setLat(event.target.value)}
           type="number"
           step="any"
+          min="-90"
+          max="90"
           placeholder="38.71"
           required
         />
@@ -96,6 +98,8 @@ function ManualLocationForm({ onSubmit }) {
           onChange={(event) => setLon(event.target.value)}
           type="number"
           step="any"
+          min="-180"
+          max="180"
           placeholder="-9.14"
           required
         />
@@ -174,12 +178,17 @@ function App() {
       return
     }
 
+    let ignore = false
+
     setLoading(true)
     setFetchError(null)
 
     fetch(`${API_URL}/api/forecast?lat=${coords.lat}&lon=${coords.lon}`)
       .then((response) => response.json())
       .then((data) => {
+        if (ignore) {
+          return
+        }
         const hasDailyData = Boolean(data.daily?.time?.length)
         if (data.error && !hasDailyData) {
           setFetchError(data.error)
@@ -189,9 +198,23 @@ function App() {
         setForecast(data)
       })
       .catch(() => {
+        if (ignore) {
+          return
+        }
         setFetchError('Não foi possível contactar o servidor. Tenta novamente mais tarde.')
+        setForecast(null)
       })
-      .finally(() => setLoading(false))
+      .finally(() => {
+        if (!ignore) {
+          setLoading(false)
+        }
+      })
+
+    // Se o utilizador mudar de localização antes desta resposta chegar,
+    // ignora-a: evita mostrar a previsão de um local que já não é o atual.
+    return () => {
+      ignore = true
+    }
   }, [coords])
 
   return (

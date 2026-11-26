@@ -42,6 +42,12 @@ if ($latitude === null || $latitude === false || $longitude === null || $longitu
     exit;
 }
 
+if ($latitude < -90 || $latitude > 90 || $longitude < -180 || $longitude > 180) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Latitude deve estar entre -90 e 90, longitude entre -180 e 180.']);
+    exit;
+}
+
 $forecastService = new ForecastService(
     new OpenMeteoClient(new StreamHttpClient()),
     new FileCache(__DIR__ . '/../cache', ttlSeconds: 3600, clock: new SystemClock()),
