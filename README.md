@@ -109,3 +109,11 @@ concretos:
 - UI mais rica: animações/transições subtis, estados vazios mais
   trabalhados (ex. ícone/ilustração quando não há alertas), gráfico simples
   da evolução da temperatura e precipitação ao longo dos dias.
+- Infraestrutura para produção a maior escala:
+  - CI/CD (ex. GitHub Actions) a correr os testes em cada push/PR.
+  - CloudFront à frente do cliente, com cache e limites de pedidos por
+    origem (rate limiting).
+  - ALB a distribuir os pedidos entre várias instâncias do servidor.
+  - Fila SQS para conter picos de pedidos e evitar flood da Open-Meteo.
+  - SNS para notificar quem pedisse alertas sobre os seus locais
+    favoritos (liga à funcionalidade de favoritos acima).
