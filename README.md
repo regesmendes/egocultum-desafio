@@ -117,3 +117,33 @@ concretos:
   - Fila SQS para conter picos de pedidos e evitar flood da Open-Meteo.
   - SNS para notificar quem pedisse alertas sobre os seus locais
     favoritos (liga à funcionalidade de favoritos acima).
+
+## Limitações conhecidas (de uma revisão de código)
+
+Pedi uma revisão geral do projeto à procura de bugs, vulnerabilidades e
+melhorias. A maior parte das correções já está aplicada (ver histórico de
+commits); ficou por fazer o que tinha escopo maior do que cabia nesta
+entrega:
+
+- **Cache em ficheiro sem limite de crescimento**: nada expira nem é
+  removido; um varrimento de coordenadas esgotaria depressa a quota diária
+  gratuita da Open-Meteo e encheria o disco. Precisa de uma política de
+  expiração/limpeza — diferente do "CloudFront com limites" acima, que é
+  sobre taxa de pedidos, não armazenamento.
+- Limite de idade para dados *stale* e mostrar há quanto tempo são
+  (`getStale()` não tem hoje um limite máximo).
+- Devolver códigos HTTP reais (502/503) quando a Open-Meteo falha e não há
+  cache nenhuma, em vez de sempre 200 com `error` preenchido.
+- Instalar as dependências (`composer install`/`npm install`) no build da
+  imagem Docker, em vez de no arranque do container.
+- Correr os containers como utilizador não-root.
+- `localStorage` pode lançar exceção nalguns modos de privacidade — falta
+  tratar isso no `useTheme`.
+- O tema "pisca" claro por uma fração de segundo antes de aplicar o escuro
+  (o `data-theme` só é definido depois do primeiro render).
+- Acessibilidade: o botão de tema substitui o texto visível pelo
+  `aria-label` (falha WCAG 2.5.3 — rótulo deve incluir o texto visível); os
+  estados "a carregar"/"a obter localização" não são anunciados a leitores
+  de ecrã (falta `role="status"`).
+- `test.sh` e `exemplo.sh` assumem que são corridos a partir da raiz do
+  repositório.
